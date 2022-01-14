@@ -33,6 +33,9 @@
    very restricted storage.  */
 #define _WANT_REENT_SMALL 1
 
+/* Verify _REENT_CHECK macros allocate memory successfully. */
+#define _REENT_CHECK_VERIFY 1
+
 /* Multibyte supported */
 /* #undef _MB_CAPABLE */
 
@@ -80,8 +83,19 @@
 /* Define if declare atexit data as global.  */
 #define _REENT_GLOBAL_ATEXIT 1
 
+/* Define to move the stdio stream FILE objects out of struct _reent and make
+   them global.  The stdio stream pointers of struct _reent are initialized to
+   point to the global stdio FILE stream objects. */
+/* #undef _WANT_REENT_GLOBAL_STDIO_STREAMS */
+
 /* Define if small footprint nano-formatted-IO implementation used.  */
 #define _NANO_FORMATTED_IO 1
+
+/* Define if using retargetable functions for default lock routines.  */
+#define _RETARGETABLE_LOCKING 1
+
+/* Define to use type long for time_t.  */
+/* #undef _WANT_USE_LONG_TIME_T */
 
 /*
  * Iconv encodings enabled ("to" direction)

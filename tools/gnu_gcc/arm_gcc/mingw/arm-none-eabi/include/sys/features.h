@@ -100,6 +100,9 @@ extern "C" {
  * _SVID_SOURCE (deprecated by _DEFAULT_SOURCE)
  * _DEFAULT_SOURCE (or none of the above)
  * 	POSIX-1.2008 with BSD and SVr4 extensions
+ *
+ * _FORTIFY_SOURCE = 1 or 2
+ * 	Object Size Checking function wrappers
  */
 
 #ifdef _GNU_SOURCE
@@ -233,9 +236,11 @@ extern "C" {
  * __GNU_VISIBLE
  * 	GNU extensions; enabled with _GNU_SOURCE.
  *
+ * __SSP_FORTIFY_LEVEL
+ * 	Object Size Checking; defined to 0 (off), 1, or 2.
+ *
  * In all cases above, "enabled by default" means either by defining
  * _DEFAULT_SOURCE, or by not defining any of the public feature test macros.
- * Defining _GNU_SOURCE makes all of the above avaliable.
  */
 
 #ifdef _ATFILE_SOURCE
@@ -314,6 +319,17 @@ extern "C" {
 #define	__XSI_VISIBLE		0
 #endif
 
+#if _FORTIFY_SOURCE > 0 && !defined(__cplusplus) && !defined(__lint__) && \
+   (__OPTIMIZE__ > 0 || defined(__clang__)) && __GNUC_PREREQ__(4, 1)
+#  if _FORTIFY_SOURCE > 1
+#    define __SSP_FORTIFY_LEVEL 2
+#  else
+#    define __SSP_FORTIFY_LEVEL 1
+#  endif
+#else
+#  define __SSP_FORTIFY_LEVEL 0
+#endif
+
 /* RTEMS adheres to POSIX -- 1003.1b with some features from annexes.  */
 
 #ifdef __rtems__
@@ -333,7 +349,7 @@ extern "C" {
 #define _POSIX_PRIORITY_SCHEDULING	1
 #define _POSIX_REALTIME_SIGNALS		1
 #define _POSIX_SEMAPHORES		1
-/* #define _POSIX_SHARED_MEMORY_OBJECTS	1 */
+#define _POSIX_SHARED_MEMORY_OBJECTS	1
 #define _POSIX_SYNCHRONIZED_IO		1
 #define _POSIX_TIMERS			1
 #define _POSIX_BARRIERS                 200112L
@@ -365,6 +381,9 @@ extern "C" {
 
 /* UNIX98 added some new pthread mutex attributes */
 #define _UNIX98_THREAD_MUTEX_ATTRIBUTES         1
+
+/* POSIX 1003.26-2003 defined device control method */
+#define _POSIX_26_VERSION			200312L
 
 #endif
 
@@ -406,7 +425,7 @@ extern "C" {
 #endif
 
 #define _POSIX_ADVISORY_INFO			200809L
-/* #define _POSIX_ASYNCHRONOUS_IO		    -1 */
+#define _POSIX_ASYNCHRONOUS_IO			200809L
 #define _POSIX_BARRIERS				200809L
 #define _POSIX_CHOWN_RESTRICTED			     1
 #define _POSIX_CLOCK_SELECTION			200809L
@@ -445,7 +464,7 @@ extern "C" {
 #define _POSIX_THREAD_SAFE_FUNCTIONS		200809L
 /* #define _POSIX_THREAD_SPORADIC_SERVER	    -1 */
 #define _POSIX_THREADS				200809L
-/* #define _POSIX_TIMEOUTS			    -1 */
+#define _POSIX_TIMEOUTS				200809L
 #define _POSIX_TIMERS				200809L
 /* #define _POSIX_TRACE				    -1 */
 /* #define _POSIX_TRACE_EVENT_FILTER		    -1 */
@@ -502,10 +521,13 @@ extern "C" {
 /* #define _XOPEN_UNIX				    -1 */
 #endif /* __XSI_VISIBLE */
 
-/* The value corresponds to UNICODE version 4.0, which is the version
-   supported by XP.  Newlib supports 5.2 (2011) but so far Cygwin needs
-   the MS conversions for double-byte charsets. */
-#define __STDC_ISO_10646__ 200305L
+/*
+ * newlib's wide char conversion functions were updated on
+ *	2019-01-12
+ * to UNICODE version:
+ *	11.0.0 released 2018-06-05
+ */
+#define __STDC_ISO_10646__ 201806L
 
 #endif /* __CYGWIN__ */
 

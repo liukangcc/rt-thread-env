@@ -15,7 +15,7 @@
 
 /* C99 formats support (such as %a, %zu, ...) in IO functions like
  * printf/scanf enabled */
-/* #undef _WANT_IO_C99_FORMATS */
+#define _WANT_IO_C99_FORMATS 1
 
 /* long long type support in IO functions like printf/scanf enabled */
 #define _WANT_IO_LONG_LONG 1
@@ -32,6 +32,9 @@
 /* Optional reentrant struct support.  Used mostly on platforms with
    very restricted storage.  */
 /* #undef _WANT_REENT_SMALL */
+
+/* Verify _REENT_CHECK macros allocate memory successfully. */
+#define _REENT_CHECK_VERIFY 1
 
 /* Multibyte supported */
 /* #undef _MB_CAPABLE */
@@ -80,8 +83,19 @@
 /* Define if declare atexit data as global.  */
 /* #undef _REENT_GLOBAL_ATEXIT */
 
+/* Define to move the stdio stream FILE objects out of struct _reent and make
+   them global.  The stdio stream pointers of struct _reent are initialized to
+   point to the global stdio FILE stream objects. */
+/* #undef _WANT_REENT_GLOBAL_STDIO_STREAMS */
+
 /* Define if small footprint nano-formatted-IO implementation used.  */
 /* #undef _NANO_FORMATTED_IO */
+
+/* Define if using retargetable functions for default lock routines.  */
+#define _RETARGETABLE_LOCKING 1
+
+/* Define to use type long for time_t.  */
+/* #undef _WANT_USE_LONG_TIME_T */
 
 /*
  * Iconv encodings enabled ("to" direction)
