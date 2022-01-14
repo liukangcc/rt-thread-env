@@ -1,4 +1,0 @@
-Traceback (most recent call last):
-  File "D:\repo\github\rt-thread-env\tools\ConEmu\ConEmu\..\..\..\tools\scripts\env.py", line 33, in <module>
-    from vars import Export
-ModuleNotFoundError: No module named 'vars'
