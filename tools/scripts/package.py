@@ -132,7 +132,7 @@ class Package:
     pkg = None
 
     def parse(self, filename):
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding="utf-8") as f:
             json_str = f.read()
 
         if json_str:
