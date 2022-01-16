@@ -56,7 +56,6 @@ def main():
     bsp_root = os.getcwd()
     script_root = os.path.split(os.path.realpath(__file__))[0]
     env_root = os.getenv("ENV_ROOT")
-    print(bsp_root, script_root, env_root)
     if env_root == None:
         if platform.system() != 'Windows':
             env_root = os.path.join(os.getenv('HOME'), '.env')
